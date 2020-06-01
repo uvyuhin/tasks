@@ -28,7 +28,7 @@ func root(x float64) float64{
 	return math.Sqrt(x)
 }
 
-func getnum (w http.ResponseWriter, req *http.Request) {
+func sqrtStr (w http.ResponseWriter, req *http.Request) {
 		query := req.URL.Query()
 		log.Printf("Received request for sqrt %s\n", query)
 		number := query.Get("number")
@@ -51,7 +51,7 @@ func main() {
 
 	http.HandleFunc("/hello", hello)
 	http.HandleFunc("/headers", headers)
-	http.HandleFunc("/sqrt", getnum)
+	http.HandleFunc("/sqrt", sqrtStr)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
