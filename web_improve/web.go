@@ -24,34 +24,41 @@ func headers(w http.ResponseWriter, req *http.Request) {
 
 }
 
-func root(x float64) float64{
-	return math.Sqrt(x)
+
+func sqrtStr (u string)(float64, error){
+	convToFlt, err := strconv.ParseFloat(u, 64)
+	if err != nil{
+		log.Printf("The error occurred %v\n", err)
+	} else {
+		log.Printf("The converted number is %v\n", convToFlt)
+	}
+	return convToFlt, err
 }
 
-func sqrtStr (w http.ResponseWriter, req *http.Request) {
+
+func count (w http.ResponseWriter, req *http.Request) {
 		query := req.URL.Query()
 		log.Printf("Received request for sqrt %s\n", query)
 		number := query.Get("number")
-		convToFlt, err := strconv.ParseFloat(number, 64)
-		if err != nil{
-			log.Printf("The error occurred %v\n", err)
-			w.Write([]byte("An error occurred, please check the entered number"))
-		} else{
-			log.Printf("The number received is %v\n", convToFlt)
-			w.Write([]byte(fmt.Sprintf("The number is  %s\n", number)))
-			d :=root(convToFlt)
-			log.Printf("Counting the square root, the result is %v\n", d)
-			convToStr := strconv.FormatFloat(d, 'f', 10,32)
-			w.Write([]byte(fmt.Sprintf("The square root for %s is %s...", number, convToStr)))
+		x, err := sqrtStr(number)
 
+		if err != nil {
+			w.Write([]byte("An error occurred, please check the entered number"))
+		} else {
+			w.Write([]byte(fmt.Sprintf("The number is  %s\n", number)))
+			o := math.Sqrt(x)
+			log.Printf("Counting the square root, the result is %v\n", o)
+			convToStr := strconv.FormatFloat(o, 'f', 10,32)
+			w.Write([]byte(fmt.Sprintf("The square root for %s is %s...", number, convToStr)))
 		}
 }
+
 
 func main() {
 
 	http.HandleFunc("/hello", hello)
 	http.HandleFunc("/headers", headers)
-	http.HandleFunc("/sqrt", sqrtStr)
+	http.HandleFunc("/sqrt", count)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
