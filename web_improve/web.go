@@ -1,4 +1,4 @@
-package main
+package myweb
 
 import (
 	"fmt"
@@ -32,7 +32,7 @@ func sqrtStr (u string)(float64, error){
 	} else {
 		log.Printf("The converted number is %v\n", convToFlt)
 	}
-	return convToFlt, err
+	return math.Sqrt(convToFlt), err
 }
 
 
@@ -46,9 +46,8 @@ func count (w http.ResponseWriter, req *http.Request) {
 			w.Write([]byte("An error occurred, please check the entered number"))
 		} else {
 			w.Write([]byte(fmt.Sprintf("The number is  %s\n", number)))
-			o := math.Sqrt(x)
-			log.Printf("Counting the square root, the result is %v\n", o)
-			convToStr := strconv.FormatFloat(o, 'f', 10,32)
+			log.Printf("Counting the square root, the result is %v\n", x)
+			convToStr := strconv.FormatFloat(x, 'f', 10,32)
 			w.Write([]byte(fmt.Sprintf("The square root for %s is %s...", number, convToStr)))
 		}
 }
