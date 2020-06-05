@@ -28,7 +28,7 @@ func headers(w http.ResponseWriter, req *http.Request) {
 func sqrtStr (u string)(float64, error){
 	convToFlt, err := strconv.ParseFloat(u, 64)
 	if err != nil{
-		log.Printf("The error occurred %v\n", err)
+		//log.Printf("The error occurred %v\n", err)
 	} else {
 		log.Printf("The converted number is %v\n", convToFlt)
 	}
