@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -10,37 +11,41 @@ func TestSqrtStr(t *testing.T) {
 		name string
 		input string
 		output float64
-		errmsg error
+		errmsg string
 	}{
 		{
 			name :"testing valid digit",
 			input : "4",
 			output: 2 ,
-			errmsg: nil ,
+			errmsg: nil,
 		},
 		{
 			name: "testing letter as an input - func should return an error",
 			input: "g",
 			output: nil ,
-			errmsg: ""
+			errmsg: "strconv.ParseFloat: parsing \"g\": invalid syntax",
+		},
+		{
+			name: "testing case with no input symbol",
+			input: "",
+			output: nil,
+			errmsg: "strconv.ParseFloat: parsing \"\": invalid syntax",
 		},
 
 	}
 
-	//testing valid digit
-	var want float64 = 2
-	if got, _ := sqrtStr("4"); got != want {
-		t.Errorf("sqrtStr() = %v want %v", got, want)
+	for _, tt := range tests{
+			res, err := sqrtStr(tt.input)
+			errms := err.Error()
+			got := struct {float64; string }{res, errms}
+			want := struct {float64; string}{tt.output, tt.errmsg}
+			if !reflect.DeepEqual(got, want){
+				t.Fatalf("test %d: expected: %v, got: %v",tt.name, want, got)
+			}
+
+			}
+
 	}
 
-	//testing letter - func should return an error
-	if _ , got1 := sqrtStr("d"); got1 == nil {
-		t.Errorf("sqrtStr() = %v want %v", got1, nil)
-	}
 
-	//testing case with no input symbol
-	if _ , got2 := sqrtStr(""); got2 == nil {
-		t.Errorf("sqrtStr() = %v want %v", got2, nil)
-	}
-}
 
