@@ -1,4 +1,4 @@
-package myweb
+package main
 
 import (
 	"fmt"
@@ -28,7 +28,7 @@ func headers(w http.ResponseWriter, req *http.Request) {
 func sqrtStr (u string)(float64, error){
 	convToFlt, err := strconv.ParseFloat(u, 64)
 	if err != nil{
-		//log.Printf("The error occurred %v\n", err)
+		log.Printf("The error occurred %v\n", err)
 	} else {
 		log.Printf("The converted number is %v\n", convToFlt)
 	}
@@ -37,19 +37,19 @@ func sqrtStr (u string)(float64, error){
 
 
 func count (w http.ResponseWriter, req *http.Request) {
-		query := req.URL.Query()
-		log.Printf("Received request for sqrt %s\n", query)
-		number := query.Get("number")
-		x, err := sqrtStr(number)
+	query := req.URL.Query()
+	log.Printf("Received request for sqrt %s\n", query)
+	number := query.Get("number")
+	x, err := sqrtStr(number)
 
-		if err != nil {
-			w.Write([]byte("An error occurred, please check the entered number"))
-		} else {
-			w.Write([]byte(fmt.Sprintf("The number is  %s\n", number)))
-			log.Printf("Counting the square root, the result is %v\n", x)
-			convToStr := strconv.FormatFloat(x, 'f', 10,32)
-			w.Write([]byte(fmt.Sprintf("The square root for %s is %s...", number, convToStr)))
-		}
+	if err != nil {
+		w.Write([]byte("An error occurred, please check the entered number"))
+	} else {
+		w.Write([]byte(fmt.Sprintf("The number is  %s\n", number)))
+		log.Printf("Counting the square root, the result is %v\n", x)
+		convToStr := strconv.FormatFloat(x, 'f', 10,32)
+		w.Write([]byte(fmt.Sprintf("The square root for %s is %s...", number, convToStr)))
+	}
 }
 
 

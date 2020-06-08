@@ -1,10 +1,31 @@
-package myweb
+package main
 
 import (
 	"testing"
 )
 
 func TestSqrtStr(t *testing.T) {
+
+	tests := [] struct {
+		name string
+		input string
+		output float64
+		errmsg error
+	}{
+		{
+			name :"testing valid digit",
+			input : "4",
+			output: 2 ,
+			errmsg: nil ,
+		},
+		{
+			name: "testing letter as an input - func should return an error",
+			input: "g",
+			output: nil ,
+			errmsg: ""
+		},
+
+	}
 
 	//testing valid digit
 	var want float64 = 2
