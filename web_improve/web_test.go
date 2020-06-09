@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
 )
@@ -17,7 +18,7 @@ func TestSqrtStr(t *testing.T) {
 			name :"testing valid digit",
 			input : "4",
 			output: 2 ,
-			errmsg: nil,
+			errmsg: "",
 		},
 		{
 			name: "testing letter as an input - func should return an error",
@@ -37,6 +38,13 @@ func TestSqrtStr(t *testing.T) {
 	for _, tt := range tests{
 			res, err := sqrtStr(tt.input)
 			errms := err.Error()
+			assert.Equal(t, tt.errmsg, errms, "sqrtStr returns unexpected error")
+			assert.Equal(t, tt.output, res, "sqrtStr returns unexpected value")
+
+
+
+
+
 			got := struct {float64; string }{res, errms}
 			want := struct {float64; string}{tt.output, tt.errmsg}
 			if !reflect.DeepEqual(got, want){
