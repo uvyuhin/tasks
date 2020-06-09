@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/stretchr/testify/assert"
-	"reflect"
 	"testing"
 )
 
@@ -43,17 +42,9 @@ func TestSqrtStr(t *testing.T) {
 
 
 
-
-
-			got := struct {float64; string }{res, errms}
-			want := struct {float64; string}{tt.output, tt.errmsg}
-			if !reflect.DeepEqual(got, want){
-				t.Fatalf("test %d: expected: %v, got: %v",tt.name, want, got)
 			}
+}
 
-			}
-
-	}
 
 
 
