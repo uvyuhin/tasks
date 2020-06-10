@@ -11,40 +11,43 @@ func TestSqrtStr(t *testing.T) {
 		name string
 		input string
 		output float64
-		errmsg string
+		wantErr bool
+	 	errmsg string
 	}{
 		{
 			name :"testing valid digit",
 			input : "4",
 			output: 2 ,
-			errmsg: "",
+			wantErr: false,
 		},
 		{
 			name: "testing letter as an input - func should return an error",
 			input: "g",
-			output: nil ,
+			output: 0 ,
+			wantErr: true,
 			errmsg: "strconv.ParseFloat: parsing \"g\": invalid syntax",
 		},
 		{
 			name: "testing case with no input symbol",
 			input: "",
-			output: nil,
+			output: 0 ,
+			wantErr: true,
 			errmsg: "strconv.ParseFloat: parsing \"\": invalid syntax",
 		},
 
 	}
 
-	for _, tt := range tests{
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
 			res, err := sqrtStr(tt.input)
-			errms := err.Error()
-			assert.Equal(t, tt.errmsg, errms, "sqrtStr returns unexpected error")
+
 			assert.Equal(t, tt.output, res, "sqrtStr returns unexpected value")
-
-
-
+			if tt.wantErr {
+				assert.Equal(t, tt.errmsg, err.Error(), "sqrtStr returns unexpected error")
+			}else {
+				assert.Equal(t, nil, err, "sqrtStr returns unexpected error")
 			}
+		})
+	}
 }
-
-
-
-
