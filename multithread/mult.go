@@ -104,7 +104,7 @@ func main() {
 	ch5 := make(chan string)
 	p := "The_sums"
 
-	number, err := readCsv("/Users/vantihovich/work_lyft/tasks/multithread/test_2.csv")
+	number, err := readCsv("/Users/vantihovich/work_lyft/tasks/multithread/test_100.csv")
 	if err != nil {
 		fmt.Println("Error when reading the file", err)
 	} else {
@@ -115,14 +115,19 @@ func main() {
 	go parsingRow(ch, ch2, chErr)
 
 	go func() {
+		defer close(chOutR)
 		for {
 			select {
 			case v := <-ch2:
-				log.Println("correct entry: ", v)
+				if v == nil {
+					return
+				}
 				chOutR <- v
 			case errFromCh := <-chErr:
-				log.Println("Error caught:")
-				log.Fatal( errFromCh)
+				if errFromCh == nil {
+					return
+				}
+				log.Fatal("Error caught: ", errFromCh)
 			}
 		}
 	}()
